@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 
 import { axiosWithAuth } from '../utils/axiosWithAuth'
+//Kevin: are we supposed to use axiosWithAuth or just axios in this situation?
 
 const initialColor = {
   color: "",
@@ -8,7 +9,7 @@ const initialColor = {
 };
 
 const ColorList = ({ colors, updateColors }) => {
-  console.log(colors);
+  // console.log(colors);
   const [editing, setEditing] = useState(false);
   const [colorToEdit, setColorToEdit] = useState(initialColor);
 
@@ -24,7 +25,7 @@ const ColorList = ({ colors, updateColors }) => {
       .then(res => {
         let newArray = colors.filter(color => color.id !== res.data.id)
         updateColors([...newArray, res.data])
-
+        //Kevin: updated colors always end up at the bottom. is there a way to make them stay where they were? Maybe too advanced for me??
       })
       .catch(res => console.log(res))
     // Make a put request to save your updated color
@@ -36,7 +37,6 @@ const ColorList = ({ colors, updateColors }) => {
     axiosWithAuth()
       .delete(`/colors/${color.id}`)
       .then(res => {
-        console.log(res)
         updateColors(colors.filter(colorCircle => colorCircle.id !== res.data));
       })
       .catch(res => console.log(res))
